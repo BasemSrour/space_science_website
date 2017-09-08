@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+	projects - Space Science Website Template
+{% endblock %}
+
+{% block menu %}
+	<a href="{% url 'space_prospection:home' %}" class="logo"><img src="{% static 'images/logo.png' %}" alt=""></a>
+	<ul id="navigation">
+		<li>
+			<a href="{% url 'space_prospection:home' %}">Home</a>
+		</li>
+		<li>
+			<a href="{% url 'space_prospection:about' %}">About</a>
+		</li>
+		<li class="menu selected">
+			<a href="{% url 'space_prospection:projects' %}">Projects</a>
+			<ul class="primary">
+				<li>
+					{% for project in all_projects %}
+						<a href="{% url 'space_prospection:project_details' project.id %}">
+							{{ project.proj_title }}
+						</a>
+					{% endfor %}	
+				</li>
+			</ul>
+		</li>
+			<li class="menu">
+				<a href="{% url 'space_prospection:blog' %}">Blog</a>
+				<ul class="secondary">
+					<li>
+						{% for post in all_posts %}
+							<a href="{% url 'space_prospection:post_details' post.id %}">
+								{{ post.post_title }}
+							</a>
+						{% endfor %}	
+					</li>
+				</ul>
+			</li>
+			<li>
+				<a href="{% url 'space_prospection:contact' %}">Contact</a>
+			</li>
+	</ul>
+{% endblock %}
+
+{% block content %}
+	<div id="body">
+		<div class="header">
+			<div>
+				<h1>Projects</h1>
+				<ul>
+					{% for project in all_projects %}					
+						<li>
+							<a href="{% url 'space_prospection:project_details' project.id %}"><img src="{{ project.proj_pic.url }}" alt="" width="380" height="300"></a>
+							<div>
+								<h1>{{ project.proj_title }}</h1>
+								<p>{{ project.proj_content|truncatechars:300 }}</p>
+								<a href="{% url 'space_prospection:project_details' project.id %}" class="more">Read More</a>
+							</div>
+						</li>
+					{% endfor %}
+				</ul>
+			</div>
+		</div>
+	</div>	
+{% endblock %}

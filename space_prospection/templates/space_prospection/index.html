@@ -1,0 +1,103 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block title %}
+	Space Science Website Template
+{% endblock %}
+
+{% block menu %}
+	<a href="{% url 'space_prospection:home' %}" class="logo"><img src="{% static "images/logo.png" %}" alt=""></a>
+		<ul id="navigation">
+			<li class="selected">
+				<a href="{% url 'space_prospection:home' %}">Home</a>
+			</li>
+			<li>
+				<a href="{% url 'space_prospection:about' %}">About</a>
+			</li>
+			<li class="menu">
+				<a href="{% url 'space_prospection:projects' %}">Projects</a>
+				<ul class="primary">
+					<li>
+						{% for project in all_projects %}
+							<a href="{% url 'space_prospection:project_details' project.id %}">
+								{{ project.proj_title }}
+							</a>
+						{% endfor %}	
+					</li>
+				</ul>
+			</li>
+			<li class="menu">
+				<a href="{% url 'space_prospection:blog' %}">Blog</a>
+					<ul class="secondary">
+						<li>
+							{% for post in all_posts %}
+								<a href="{% url 'space_prospection:post_details' post.id %}">
+									{{ post.post_title }}
+								</a>
+							{% endfor %}	
+						</li>
+					</ul>
+			</li>
+			<li>
+				<a href="{% url 'space_prospection:contact' %}">Contact</a>
+			</li>
+		</ul>
+{% endblock %}
+
+{% block content %}
+	<div id="body" class="home">
+		<div class="header">
+			<div>
+				{% for post in home_page_pic %}
+					<img src="{{ post.post_pic.url }}" alt="" class="satellite" height="400" width="420">
+					<h1>{{ post.post_title }}</h1>
+				{% endfor %}
+				<a href="{% url 'space_prospection:blog' %}" class="more">Read More</a>
+				<h3>FEATURED PROJECTS</h3>
+				<ul>
+					{% for project in all_projects %}
+						{% if project.proj_is_featured %}	
+							<li>
+								<a href="{% url 'space_prospection:projects' %}">
+									<img src="{{ project.proj_pic.url }}"  alt="" height="300" width="235">
+								</a>
+							</li>
+						{% endif %}
+					{% endfor %}		
+				</ul>
+			</div>
+		</div>
+		<div class="body">
+			<div>
+				<h1>OUR MISSION</h1>
+				<p>Make the people know about the space and nature around them.</p>
+			</div>
+		</div>
+		<div class="footer">
+			<div>
+				<ul>
+					<li>
+						<h1>FEATURED VIDEO</h1>
+						{% for post in featured_video_pic %}
+							<a href="{% url 'space_prospection:blog' %}"><img src="{{ post.post_pic.url }}" alt="" height="275" width="460"><span></span></a>
+						{% endfor %}	
+					</li>
+					<li>
+						<h1>LATEST BLOG</h1>
+						<ul>
+							{% for post in latest_blog %}
+								<li>
+									<a href="{% url 'space_prospection:blog' %}"><img src="{{ post.post_pic.url }}" alt="" height="70" width="90"></a>
+									<h1>{{ post.post_title }}</h1>
+									<span>{{ post.post_pub_date }}</span>
+									<a href="{% url 'space_prospection:blog' %}" class="more">Read More</a>
+								</li>
+							{% endfor %}		
+						</ul>
+					</li>
+				</ul>
+			</div>
+		</div>
+	</div>
+{% endblock %}
